@@ -12,9 +12,9 @@ underscore. After that, any combination of alphanumerics and underscores is
 allowed. The prevalent convention is to use only lowercase ASCII letters,
 digits, and underscores.
 
-Variable names can also end with ? or !. Ending in ? is a convention to indicate
-true/false return values. Ending in ! is a convention to indicate that the
-function may raise an exception.
+Variable names can also end with `?` or `!`. Ending in `?` is a convention to
+indicate true/false return values. Ending in `!` is a convention to indicate
+that the function may raise an exception.
 
 A `module` is a collection of functions, somewhat like a namespace. Every Elixir
 function must be defined inside a module. To define your own module, you use the
@@ -108,3 +108,52 @@ end
 Elixir has a built in pipe operator `|>` for chaining functions. It takes the
 result of the expression on the left and passes it as the first argument to the
 function on the right, e.g. `a |> f (b)` is the same as `f(a, b)`.
+
+Elixir is a dynamically typed language. The types are:
+
+- numbers
+  - integers
+  - floats
+- boolean
+- string
+- atoms
+
+The `/` operator always returns a `float`, use `div(a,b)` for integer division.
+
+An `_` can be used as a visual digit separator, e.g. `1_000_000`.
+
+There’s no upper limit on an integer’s size, and you can use arbitrarily large
+numbers.
+
+Atoms are literal named constants (kind of like an enumeration). They are
+defined with a `:` followed by a combination of alphanumerics and/or underscore
+characters (`:"even with spaces"`). They are all stored in an atom table at
+runtime, so are efficient, especially for named constants. Atoms can be aliased,
+by not using a `:` and starting with an uppercase letter. `MyAtom` will be set
+to `:"Elixir.MyAtom"`.
+
+Boolean surprise! The atoms `:true` and `:false` are the designated values for
+booleans, and there is no dedicated type.
+
+The atom `:nil` is used for null, and also factors into "truthiness" checks
+(it's falsey). Elixir’s short-circuit logic operators are `||`, `&&` (with `!`
+to negate). `||` returns the first expression that isn’t falsy. `&&` returns the
+second expression, but only if the first expression is truthy. Otherwise, it
+returns the first expression without evaluating the second one. These let you
+intelligently chain functions/operations together, e.g. in
+
+```elixir
+database_value = connection && read_data(connection)
+```
+
+`read_data/1` will never be evaluated if `connection` is `nil`.
+
+`Tuples` are untyped structures, and are surround with `{}`. E.g.
+
+```elixir
+{:ok, "Success"}
+{:error, "Failure Msg"}
+{"Alterationx10", 2, 3.14, :false}
+```
+
+Tuple elements can be accessed/put by index (indexing starts at 0).
