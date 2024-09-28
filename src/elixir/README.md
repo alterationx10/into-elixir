@@ -33,7 +33,10 @@ function accept a variable number of arguments. Typically a lower-arity function
 calls to a higher-arity function, providing some default arguments. This can be
 automated by using `\\` in the function definition, e.g. `func(a, b \\ 0)`,
 where `fun/2` and `fun/1` are generated. This works for multiple arguments as
-well, e.g. `func(a, b \\ 0, c \\ 0, d \\ 0)`.
+well, e.g. `func(a, b \\ 0, c \\ 0, d \\ 0)`. Functions can also be bound to
+variables, and be anonymous functions / lambdas. Lambdas are usually called with
+a `.` for clarity. With `my_func.(arg)` you know it's an anonymous function, vs
+`my_func(arg)` which could be a module function.
 
 A module name must start with an uppercase letter and is usually written in
 CamelCase style. A module name can consist of alphanumerics, underscores, and
@@ -208,4 +211,31 @@ There is no dedicated `string` type - they are either binaries or a list.
 "hello" == <<104, 101, 108, 108, 111>>
 ```
 
-Multiline strings are allowed.
+Multiline strings are allowed. You can use triple quotes (`heredocs`) for
+"better" multiline strings. the last triple quote needs to go on it's own line.
+
+```elixir
+"
+this
+is multiline
+"
+
+"""
+this is heredoc
+I can put a " here, or """, and not worry about escaping
+"""
+```
+
+Expressions in strings can be embedded/evaluated/interpolated with `#{}` e.g.
+`"It's me! #{user.name}"`
+
+Elixir has the concept of a `sigil`. Sigils start with `~` and is followed by
+either a single lower-case letter or one or more upper-case letters, and then a
+delimiter. You can declare a string with the `~s` sigil, e.g. `~s{hello}`. This
+is useful when you want to escape characters `~s("hello", said the world.)`.
+`~S` doesn’t handle interpolation or escape characters. `~r` is used for regular
+expressions.
+
+Strings can also be character lists (a list on integers), when used with single
+quotes, e.g. `'ABC123'`. These can have interpolated values, and use the similar
+`~c` and `~C` sigils.
