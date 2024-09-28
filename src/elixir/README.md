@@ -157,3 +157,55 @@ database_value = connection && read_data(connection)
 ```
 
 Tuple elements can be accessed/put by index (indexing starts at 0).
+
+Lists are surrounded by `[]` and are singly linked lists. To do something with
+the list, you have to traverse it, so most of the operations on lists have an
+O(n) complexity. Lists are never a good fit when direct access is called for. To
+append a new element at the tail, you have to iterate and (shallow) copy the
+entire list. Pushing an element to the top of a list doesn’t copy anything, so
+is more efficient.
+
+Maps (`%{}`)a key/value store, where keys and values can be any term. They have
+dual usage in Elixir: to power dynamically sized key/value structures, and
+manage simple records. Atom keys get special treatment, and can be used to
+access in dot notation.
+
+E.g. for simple records:
+
+```elixir
+user = %{:name: "Mark", :studying: "Elixir"}
+
+user[:name]
+# => "Mark"
+
+user.name
+# => "Mark"
+
+```
+
+Maps provide no guarantees about missing fields (`structs` can be used for
+this).
+
+```elixir
+map = %{:a => 1, :b => 2}
+
+map[:c]
+# => nil
+
+map.c
+# => ** (KeyError) key :c not found
+```
+
+A `binary` (`<<>>`) is a chunk of bytes. `<<1, 2, 3>>` is a 3 byte binary
+(default 8 bits). Values over 255 are truncated `<<256>> == <<0>>`. You can
+specify the bits `<<256::16>> == <<1, 0>>`. This bit size does not need to be a
+multiple of 8. If the total size of all the values isn’t a multiple of 8, the
+binary is a sequence of bits called a `bitstring`.
+
+There is no dedicated `string` type - they are either binaries or a list.
+
+```elixir
+"hello" == <<104, 101, 108, 108, 111>>
+```
+
+Multiline strings are allowed.
