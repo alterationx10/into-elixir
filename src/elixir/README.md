@@ -36,7 +36,13 @@ where `fun/2` and `fun/1` are generated. This works for multiple arguments as
 well, e.g. `func(a, b \\ 0, c \\ 0, d \\ 0)`. Functions can also be bound to
 variables, and be anonymous functions / lambdas. Lambdas are usually called with
 a `.` for clarity. With `my_func.(arg)` you know it's an anonymous function, vs
-`my_func(arg)` which could be a module function.
+`my_func(arg)` which could be a module function. When passing functions as
+arguments it can be convenient to use the capture operator`&`. It takes the full
+function qualifier — a module name, a function name, and an arity (e.g.
+`&IO.puts/1`), and turns that function into a lambda that can be assigned to a
+variable. It can also used when binding a lambda to a variable. When capturing a
+variable as an argument to a lambda, the closure captures the memory address, so
+rebinding the variable will not affect the lambda.
 
 A module name must start with an uppercase letter and is usually written in
 CamelCase style. A module name can consist of alphanumerics, underscores, and
@@ -239,3 +245,17 @@ expressions.
 Strings can also be character lists (a list on integers), when used with single
 quotes, e.g. `'ABC123'`. These can have interpolated values, and use the similar
 `~c` and `~C` sigils.
+
+Other basic types are
+
+- reference
+- pid
+- port identifier
+
+Higher level types are
+
+- range
+- keyword lists
+- mapset
+- times/dates
+- IO lists
